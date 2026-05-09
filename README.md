@@ -1,25 +1,29 @@
-# SAEgis
+<div align="center" style="font-family: charter;">
 
-### Sparse Autoencoders as Plug-and-Play Firewalls for Adversarial Attack Detection in VLMs
 
-Hao Wang<sup>1,2</sup>\*, Yiqun Sun<sup>1</sup>, Pengfei Wei<sup>1</sup>, Lawrence B. Hsieh<sup>1</sup>, Daisuke Kawahara<sup>2</sup>
+# SAEgis: Sparse Autoencoders as Plug-and-Play Firewalls for Adversarial Attack Detection in VLMs
+
+<img src="icons/top.png" width="95%"/>
+
+[Hao Wang](https://www.conan1024hao.com/)<sup>1,2</sup>\*, Yiqun Sun<sup>1</sup>, Pengfei Wei<sup>1</sup>, Lawrence B. Hsieh<sup>1</sup>, Daisuke Kawahara<sup>2</sup>
 
 <sup>1</sup>Magellan Technology Research Institute (MTRI) &nbsp;&nbsp; <sup>2</sup>Waseda University
 
-- **Paper:** _arXiv link coming soon_
-- **SAE checkpoints:** [`mtri-admin/qwen25-vl-3b-sae` (Hugging Face collection)](https://huggingface.co/collections/mtri-admin/qwen25-vl-3b-sae)
+**Paper:** _arXiv link coming soon_
 
----
+**SAE checkpoints:** [`mtri-admin/qwen25-vl-3b-sae` (Hugging Face collection)](https://huggingface.co/collections/mtri-admin/qwen25-vl-3b-sae)
 
-Detecting adversarial attacks on multimodal LLMs using **sparse autoencoders (SAEs)** hooked into the vision stack of **Qwen2.5-VL**.
+<p align="justify"><i>Vision-language models (VLMs) have advanced rapidly and are increasingly deployed in real-world applications, especially with the rise of agent-based systems. However, their safety has received relatively limited attention. Even the latest proprietary and open-weight VLMs remain highly vulnerable to adversarial attacks, leaving downstream applications exposed to significant risks. In this work, we propose a novel and lightweight adversarial attack detection framework based on sparse autoencoders (SAEs), termed SAEgis. By inserting an SAE module into a pretrained VLM and training it with standard reconstruction objectives, we find that the learned sparse latent features naturally capture attack-relevant signals. These features enable reliable classification of whether an input image has been adversarially perturbed, even for previously unseen samples. Extensive experiments show that SAEgis achieves strong performance across in-domain, cross-domain, and cross-attack settings, with particularly large improvements in cross-domain generalization compared to existing baselines. In addition, combining signals from multiple layers further improves robustness and stability. To the best of our knowledge, this is the first work to explore SAE as a plug-and-play mechanism for adversarial attack detection in VLMs. Our method requires no additional adversarial training, introduces minimal overhead, and provides a practical approach for improving the safety of real-world VLM systems.</i></p>
 
-The pipeline caches per-image SAE activations on clean and adversarially perturbed images, ranks features that shift most under attack, and evaluates a simple detector that scores samples by how many attack-sensitive SAE features fire (ROC/AUC, precision–recall, F1 at fixed false-positive rates).
+</div>
 
-**Hardware:** NVIDIA GPU with CUDA.
+## Release
+- `2026-05-09` :rocket: We released the pipeline implementation of SAEgis along with SAE weights for Qwen2.5-VL-3B.
 
----
 
 ## Repo layout
+
+The pipeline caches per-image SAE activations on clean and adversarially perturbed images, ranks features that shift most under attack, and evaluates a simple detector that scores samples by how many attack-sensitive SAE features fire (ROC/AUC, precision–recall, F1 at fixed false-positive rates).
 
 | File | Role |
 |------|------|
@@ -32,7 +36,6 @@ The pipeline caches per-image SAE activations on clean and adversarially perturb
 
 Each Python entrypoint has a matching `*.sh` orchestration script.
 
----
 
 ## Installation
 
@@ -64,7 +67,7 @@ Each Python entrypoint has a matching `*.sh` orchestration script.
 
    Or place `HUGGINGFACE_TOKEN=...` in a `.env` file (loaded via `python-dotenv`).
 
----
+
 
 ## Pipeline
 
@@ -98,7 +101,7 @@ sae_activations/<DATASET>/<SAE_LOCATION>/original-<split>/
 sae_activations/<DATASET>/<ATTACK_METHOD>/<SAE_LOCATION>/attacked-<split>/
 ```
 
-### 2. Rank attack-sensitive features
+### 2. Rank attack-relevant features
 
 ```bash
 bash analyze_features.sh
@@ -133,7 +136,8 @@ bash baseline/dense_cos_similarity.sh
 bash baseline/dense_cos_similarity_ensemble.sh
 ```
 
----
+## Acknowledgement
+The pipeline code is build upon [EvolvingLMMs-Lab/sae](https://github.com/EvolvingLMMs-Lab/sae). We acknowledge their team for providing this excellent toolkit for training multimodal SAEs.
 
 ## Citation
 
