@@ -12,7 +12,7 @@ CLEAN_TEST_PATH="./sae_activations/$DATASET_NAME/$SAE_LOCATION/original-test"
 ATTACKED_TEST_PATH="./sae_activations/$DATASET_NAME/$ATTACK_METHOD/$SAE_LOCATION/attacked-test"
 FIG_DIR="./figs/$DATASET_NAME/$SAE_LOCATION"
 TOP_FEATURE_FILE="./top_feature_idxs/$DATASET_NAME/$ATTACK_METHOD/$SAE_LOCATION/top_features.json"
-NUM_FEATURES=64
+NUM_FEATURES=256
 
 python defense_attack.py \
   --clean_dev_path "$CLEAN_DEV_PATH" \
