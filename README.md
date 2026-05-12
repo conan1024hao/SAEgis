@@ -9,7 +9,7 @@
 
 <sup>1</sup>Magellan Technology Research Institute (MTRI) &nbsp;&nbsp; <sup>2</sup>Waseda University
 
-**Paper:** _arXiv link coming soon_
+**Paper:** https://arxiv.org/abs/2605.07447v1
 
 **SAE checkpoints:** [`mtri-admin/qwen25-vl-3b-sae` (Hugging Face collection)](https://huggingface.co/collections/mtri-admin/qwen25-vl-3b-sae)
 
@@ -140,5 +140,14 @@ bash baseline/dense_cos_similarity_ensemble.sh
 The pipeline code is build upon [EvolvingLMMs-Lab/sae](https://github.com/EvolvingLMMs-Lab/sae). We acknowledge their team for providing this excellent toolkit for training multimodal SAEs.
 
 ## Citation
-
-<!-- Citation to be added. -->
+```
+@misc{wang2026sparseautoencodersplugandplayfirewalls,
+      title={Sparse Autoencoders as Plug-and-Play Firewalls for Adversarial Attack Detection in VLMs}, 
+      author={Hao Wang and Yiqun Sun and Pengfei Wei and Lawrence B. Hsieh and Daisuke Kawahara},
+      year={2026},
+      eprint={2605.07447},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2605.07447}, 
+}
+```
