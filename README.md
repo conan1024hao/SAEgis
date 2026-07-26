@@ -13,6 +13,8 @@
 
 **SAE checkpoints:** [`mtri-admin/qwen25-vl-3b-sae` (Hugging Face collection)](https://huggingface.co/collections/mtri-admin/qwen25-vl-3b-sae)
 
+**Supported base models:** `Qwen/Qwen2.5-VL-3B-Instruct` (SAE location `projection-mlp2` = `model.visual.merger.mlp.2`) and `google/gemma-4-E2B-it` (SAE location `vision-projection` = `model.embed_vision.embedding_projection`). Both locations are the final vision&rarr;language projection of their model.
+
 <p align="justify"><i>Vision-language models (VLMs) have advanced rapidly and are increasingly deployed in real-world applications, especially with the rise of agent-based systems. However, their safety has received relatively limited attention. Even the latest proprietary and open-weight VLMs remain highly vulnerable to adversarial attacks, leaving downstream applications exposed to significant risks. In this work, we propose a novel and lightweight adversarial attack detection framework based on sparse autoencoders (SAEs), termed SAEgis. By inserting an SAE module into a pretrained VLM and training it with standard reconstruction objectives, we find that the learned sparse latent features naturally capture attack-relevant signals. These features enable reliable classification of whether an input image has been adversarially perturbed, even for previously unseen samples. Extensive experiments show that SAEgis achieves strong performance across in-domain, cross-domain, and cross-attack settings, with particularly large improvements in cross-domain generalization compared to existing baselines. In addition, combining signals from multiple layers further improves robustness and stability. To the best of our knowledge, this is the first work to explore SAE as a plug-and-play mechanism for adversarial attack detection in VLMs. Our method requires no additional adversarial training, introduces minimal overhead, and provides a practical approach for improving the safety of real-world VLM systems.</i></p>
 
 </div>
@@ -27,7 +29,7 @@ The pipeline caches per-image SAE activations on clean and adversarially perturb
 
 | File | Role |
 |------|------|
-| [`cache_activations.py`](cache_activations.py) | Loads Qwen2.5-VL + SAE LoRA, runs a forward pass per image, writes cached SAE activations to disk. |
+| [`cache_activations.py`](cache_activations.py) | Loads the base VLM (Qwen2.5-VL or Gemma 4) + SAE LoRA, runs a forward pass per image, writes cached SAE activations to disk. |
 | [`analyze_features.py`](analyze_features.py) | Compares attacked vs. clean activation statistics and writes `top_features.json` (ranked feature indices and score deltas). |
 | [`defense_attack.py`](defense_attack.py) | Uses those top features as a detector: plots distributions and reports AUC / PR / threshold metrics. |
 | [`defense_attack_ensemble.py`](defense_attack_ensemble.py) | Ensemble variant combining multiple SAE locations. |
@@ -56,10 +58,13 @@ Each Python entrypoint has a matching `*.sh` orchestration script.
 3. **Other dependencies**
 
    ```bash
-   pip install torch transformers accelerate tqdm python-dotenv matplotlib numpy scikit-learn qwen-vl-utils
+   pip install torch "transformers>=5.9,<6" accelerate tqdm python-dotenv matplotlib numpy scikit-learn qwen-vl-utils
    ```
 
-4. **Hugging Face token** (SAE checkpoints under `mtri-admin/qwen2.5-vl-3b-sae-*` may be gated)
+   `transformers>=5.5` is required for Gemma 4 (`Gemma4ForConditionalGeneration`); the SAE
+   library pins a compatible range already.
+
+4. **Hugging Face token** (SAE checkpoints under `mtri-admin/*-sae-*` may be gated)
 
    ```bash
    export HUGGINGFACE_TOKEN=hf_...

@@ -14,9 +14,19 @@ else
     IMAGES_PATH="images/$DATASET/$SUBSET/$ATTACK_METHOD/$SPLIT"
 fi
 
-MODEL_PATH="Qwen/Qwen2.5-VL-3B-Instruct"
-SAE_LOCATION="projection-mlp2"
-SAE_MODEL_PATH="mtri-admin/qwen2.5-vl-3b-sae-$SAE_LOCATION-finevisionmax-500k"
+# Which base model / SAE to cache activations for. Both SAEs sit at the vision->LM
+# projection; the location names differ so their activation directories never collide.
+MODEL="qwen2.5-vl-3b" # or "gemma-4-e2b"
+if [ "$MODEL" == "gemma-4-e2b" ]; then
+    MODEL_PATH="google/gemma-4-E2B-it"
+    SAE_LOCATION="vision-projection"
+    SAE_MODEL_PATH="mtri-admin/gemma-4-e2b-sae-$SAE_LOCATION-finevisionmax-500k"
+else
+    MODEL_PATH="Qwen/Qwen2.5-VL-3B-Instruct"
+    SAE_LOCATION="projection-mlp2"
+    SAE_MODEL_PATH="mtri-admin/qwen2.5-vl-3b-sae-$SAE_LOCATION-finevisionmax-500k"
+fi
+
 if [ "$SUBSET" == "original" ]; then
     ACTIVATION_PATH="./sae_activations/$DATASET/$SAE_LOCATION/$SUBSET-$SPLIT"
 else
