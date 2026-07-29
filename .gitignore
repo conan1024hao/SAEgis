@@ -3,4 +3,7 @@
 sae
 sae_activations
 figs
-top_feature_idxs
+top_feature_idxs__pycache__/
+table_cache/
+logs/
+jobs/

@@ -1,0 +1,91 @@
+% Requires \usepackage{booktabs,multirow}
+\begin{table}[t]
+\centering
+\caption{In-domain detection, SAEgis single-layer, Qwen2.5-VL-3B vs Gemma-4-E2B. Features are selected on the same dataset and attack they are evaluated on ($K{=}256$), and the threshold is the 98th percentile of clean dev scores (FPR${=}0.02$).}
+\label{tab:appendix-in-domain}
+\begin{tabular}{llccccccccc}
+\toprule
+& & \multicolumn{3}{c}{SSA-CWA} & \multicolumn{3}{c}{M-Attack} & \multicolumn{3}{c}{FOA-Attack} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8} \cmidrule(lr){9-11}
+Data & Model & P & R & F1 & P & R & F1 & P & R & F1 \\
+\midrule
+\multirow{2}{*}{NIPS17}
+ & Qwen2.5-VL-3B & 98.0 & 98 & 98.0 & 99.0 & 95 & 96.9 & 99.0 & 95 & 96.9 \\
+ & Gemma-4-E2B & 97.1 & 99 & 98.0 & 95.0 & 96 & 95.5 & 96.0 & 96 & 96.0 \\
+\midrule
+\multirow{2}{*}{LLaVA}
+ & Qwen2.5-VL-3B & 98.0 & 99 & 98.5 & 96.7 & 87 & 91.6 & 97.7 & 85 & 90.9 \\
+ & Gemma-4-E2B & 100.0 & 100 & 100.0 & 97.7 & 86 & 91.5 & 98.9 & 86 & 92.0 \\
+\midrule
+\multirow{2}{*}{Medical}
+ & Qwen2.5-VL-3B & 98.9 & 88 & 93.1 & 98.8 & 79 & 87.8 & 98.8 & 84 & 90.8 \\
+ & Gemma-4-E2B & 96.9 & 95 & 96.0 & 97.8 & 88 & 92.6 & 97.8 & 88 & 92.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Cross-domain detection. Attack-relevant features are selected on the source dataset and applied unchanged to the target dataset, keeping the attack fixed.}
+\label{tab:appendix-cross-domain}
+\begin{tabular}{llccccccccc}
+\toprule
+& & \multicolumn{3}{c}{SSA-CWA} & \multicolumn{3}{c}{M-Attack} & \multicolumn{3}{c}{FOA-Attack} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8} \cmidrule(lr){9-11}
+Transfer & Model & P & R & F1 & P & R & F1 & P & R & F1 \\
+\midrule
+\multirow{2}{*}{NIPS17 $\rightarrow$ Medical}
+ & Qwen2.5-VL-3B & 100.0 & 86 & 92.5 & 97.5 & 79 & 87.3 & 97.7 & 85 & 90.9 \\
+ & Gemma-4-E2B & 95.8 & 91 & 93.3 & 100.0 & 75 & 85.7 & 100.0 & 80 & 88.9 \\
+\midrule
+\multirow{2}{*}{LLaVA $\rightarrow$ Medical}
+ & Qwen2.5-VL-3B & 97.8 & 89 & 93.2 & 97.6 & 82 & 89.1 & 97.8 & 87 & 92.1 \\
+ & Gemma-4-E2B & 95.8 & 92 & 93.9 & 100.0 & 68 & 81.0 & 100.0 & 75 & 85.7 \\
+\midrule
+\multirow{2}{*}{Medical $\rightarrow$ NIPS17}
+ & Qwen2.5-VL-3B & 99.0 & 97 & 98.0 & 97.9 & 94 & 95.9 & 97.9 & 92 & 94.8 \\
+ & Gemma-4-E2B & 98.0 & 98 & 98.0 & 95.5 & 84 & 89.4 & 98.9 & 88 & 93.1 \\
+\midrule
+\multirow{2}{*}{Medical $\rightarrow$ LLaVA}
+ & Qwen2.5-VL-3B & 95.1 & 98 & 96.6 & 94.6 & 88 & 91.2 & 93.6 & 88 & 90.7 \\
+ & Gemma-4-E2B & 97.1 & 100 & 98.5 & 97.7 & 85 & 90.9 & 97.7 & 85 & 90.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Cross-attack detection. Features are selected on SSA-CWA and evaluated against an unseen attack on the same dataset.}
+\label{tab:appendix-cross-attack}
+\begin{tabular}{llccccccccc}
+\toprule
+& & \multicolumn{3}{c}{NIPS17} & \multicolumn{3}{c}{LLaVA} & \multicolumn{3}{c}{Medical} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8} \cmidrule(lr){9-11}
+Transfer Setting & Model & P & R & F1 & P & R & F1 & P & R & F1 \\
+\midrule
+\multirow{2}{*}{SSA-CWA $\rightarrow$ M-Attack}
+ & Qwen2.5-VL-3B & 94.3 & 33 & 48.9 & 96.7 & 59 & 73.3 & 96.8 & 30 & 45.8 \\
+ & Gemma-4-E2B & 94.7 & 54 & 68.8 & 100.0 & 77 & 87.0 & 96.3 & 78 & 86.2 \\
+\midrule
+\multirow{2}{*}{SSA-CWA $\rightarrow$ FOA-Attack}
+ & Qwen2.5-VL-3B & 94.7 & 36 & 52.2 & 96.8 & 60 & 74.1 & 96.4 & 27 & 42.2 \\
+ & Gemma-4-E2B & 95.1 & 58 & 72.0 & 100.0 & 77 & 87.0 & 96.4 & 80 & 87.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Overall SAEgis results. In-domain and cross-domain columns average their respective tables; the cross-attack columns are the change relative to the corresponding no-transfer scores.}
+\label{tab:appendix-overall}
+\begin{tabular}{lccccccccc}
+\toprule
+& \multicolumn{3}{c}{In-domain} & \multicolumn{3}{c}{Cross-domain} & \multicolumn{3}{c}{Cross-attack} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+Model & P & R & F1 & P & R & F1 & $\Delta$P & $\Delta$R & $\Delta$F1 \\
+\midrule
+Qwen2.5-VL-3B & 98.3 & 90.0 & 93.8 & 97.2 & 88.8 & 92.7 & -2.3 & -46.7 & -36.4 \\
+Gemma-4-E2B & 97.5 & 92.7 & 94.9 & 98.0 & 85.1 & 90.8 & -0.1 & -19.3 & -12.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
